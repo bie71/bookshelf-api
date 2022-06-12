@@ -1,6 +1,6 @@
 const books = require('./books')
 const { nanoid } = require('nanoid')
-const { helper, filteredReading, filteredFinished, responses } = require('./helper')
+const { helper, filteredReading, filteredFinished, filteredObj, responses } = require('./helper')
 
 // add books
 const addBookHandler = (request, h) => {
@@ -71,10 +71,12 @@ const getAllBookHandler = (request, h) => {
     const books = filteredFinished(query.finished)
     return responses(h, books, 200)
   }
+
+  const result = filteredObj(books)
   const response = h.response({
     status: 'success',
     data: {
-      books
+      books: result
     }
   })
   response.code(200)

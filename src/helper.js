@@ -34,13 +34,30 @@ function filteredFinished (query) {
   return books
 }
 
+function filteredObj (prop) {
+  const selectedProp = ['id', 'name', 'publisher']
+  const arr = []
+  prop.forEach(el => {
+    const filteredProp = Object.keys(el)
+      .filter(key => selectedProp.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = el[key]
+        return obj
+      }, {})
+
+    arr.push(filteredProp)
+  })
+  return arr
+}
+
 function responses (h, books, code) {
   if (!books) books = []
+  const result = filteredObj(books)
   return h.response({
     status: 'success',
     data: {
-      books
+      books: result
     }
   }).code(code)
 }
-module.exports = { helper, filteredReading, filteredFinished, responses }
+module.exports = { helper, filteredReading, filteredFinished, filteredObj, responses }
